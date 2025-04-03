@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  mysql:
+    image: mysql:8.0  # MySQLの公式イメージ
+    container_name: tomoya-MySQL  # コンテナ名
+    environment:
+      MYSQL_ROOT_PASSWORD: tomoya  # ルートユーザーのパスワード
+      MYSQL_USER: tomoya           # 作成される追加ユーザー名
+      MYSQL_PASSWORD: tomoya       # 追加ユーザーのパスワード
+      MYSQL_DATABASE: DB_MySQL     # 自動的に作成されるデータベース名
+    ports:
+      - "3306:3306"  # ホストとコンテナ間のポートマッピング
+    volumes:
+      - mysql-data:/var/lib/mysql  # データ永続化のためのボリューム
+      - ./init-scripts:/docker-entrypoint-initdb.d # 初期化スクリプトをマウント
+    networks:
+      - mysql_network
+
+volumes:
+  mysql-data:  # 永続化ボリューム
+
+networks:
+  mysql_network:  # サービス間で共有されるネットワーク
