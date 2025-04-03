@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:17  # PostgreSQLの公式イメージ
+    container_name: tomoya-PostgreSQL  # PostgreSQLコンテナ名
+    environment:
+      POSTGRES_USER: tomoya      # PostgreSQLのユーザー名
+      POSTGRES_PASSWORD: tomoya  # PostgreSQLのパスワード
+      POSTGRES_DB: DB_PostgreSQL # デフォルトで作成するデータベース名
+    ports:
+      - "5432:5432"  # PostgreSQLのポート
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # データ永続化
+    networks:
+      - postgres_network  # 他のサービスと共有するネットワーク
+
+  pgadmin:
+    image: dpage/pgadmin4  # PgAdminの公式イメージ
+    container_name: pgadmin_container  # PgAdminコンテナ名
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com  # PgAdminのログインメール
+      PGADMIN_DEFAULT_PASSWORD: admin  # PgAdminのログインパスワード
+    ports:
+      - "5050:80"  # PgAdminにアクセスするためのポート
+    networks:
+      - postgres_network  # PostgreSQLと同じネットワークを使用
+
+volumes:
+  postgres_data:  # PostgreSQLのデータ永続化用ボリューム
+
+networks:
+  postgres_network:  # サービス間で共有されるネットワーク
