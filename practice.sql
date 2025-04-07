@@ -123,7 +123,7 @@ LEFT JOIN countries ON celebrities.country_code = countries.code;
 SELECT celebrities.name AS celebrity_name, countries.name AS country_name, MIN(countrylanguages.language) AS first_lungage
 FROM celebrities
 JOIN countries ON celebrities.country_code = countries.code
-JOIN countrylanguages ON countries.code = countrylanguages.country_code;
+JOIN countrylanguages ON countries.code = countrylanguages.country_code
 GROUP BY celebrities.name, countries.name;
 
 
