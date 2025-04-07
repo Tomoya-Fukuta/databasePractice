@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:latest  # 最新版を取得
+    container_name: geekation
+    environment:  # 🔹 スペルミス修正
+      POSTGRES_USER: "tomoya"
+      POSTGRES_PASSWORD: "tomoya"
+      POSTGRES_DB: "practiceDB"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - postgres_network
+
+volumes:
+  postgres_data:
+
+networks:
+  postgres_network:
