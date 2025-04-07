@@ -120,11 +120,11 @@ LEFT JOIN countries ON celebrities.country_code = countries.code;
 
 -- 問28
 -- 全ての有名人の名前,国名、第一言語を出力してください。
-SELECT celebrities.name AS celebrity_name, countries.name AS country_name, MIN(countrylanguages.language) AS first_lungage
+SELECT celebrities.name AS celebrity_name, countries.name AS country_name, countrylanguages.language AS first_language
 FROM celebrities
 JOIN countries ON celebrities.country_code = countries.code
-JOIN countrylanguages ON countries.code = countrylanguages.country_code
-GROUP BY celebrities.name, countries.name;
+JOIN countrylanguages ON countrylanguages.country_code = countries.code
+WHERE countrylanguages.is_official != FALSE;
 
 
 -- 問29
