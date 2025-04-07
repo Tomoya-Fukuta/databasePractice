@@ -120,10 +120,12 @@ LEFT JOIN countries ON celebrities.country_code = countries.code;
 
 -- 問28
 -- 全ての有名人の名前,国名、第一言語を出力してください。
-SELECT celebrities.name AS celebrity_name, countries.name AS country_name, countrylanguages.language
+SELECT celebrities.name AS celebrity_name, countries.name AS country_name, MIN(countrylanguages.language) AS first_lungage
 FROM celebrities
 JOIN countries ON celebrities.country_code = countries.code
 JOIN countrylanguages ON countries.code = countrylanguages.country_code;
+GROUP BY celebrities.name, countries.name;
+
 
 -- 問29
 -- 全ての有名人の名前と国名をに出力してください。 ただしテーブル結合せずサブクエリを使用してください。
@@ -137,8 +139,8 @@ SELECT countries.name
 FROM countries
 JOIN celebrities ON countries.code = celebrities.country_code
 GROUP BY countries.name
-HAVING MAX(EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM celebrities.birth)) >= 50
-   AND MIN(EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM celebrities.birth)) <= 30;
+HAVING MAX(celebrities.age) >= 50
+   AND MIN(celebrities.age) <= 30;
 
 -- 問31
 -- 1991年生まれと、1981年生まれの有名人が何人いるか調べてください。ただし、日付関数は使用せず、UNION句を使用してください。
@@ -149,7 +151,7 @@ SELECT COUNT(*) AS count_1981 FROM celebrities WHERE EXTRACT(YEAR FROM birth) = 
 -- 問32
 -- 有名人の出身国の平均年齢を高い方から順に表示してください。ただし、FROM句はcountriesテーブルとしてください。
 SELECT countries.name AS country_name, 
-       AVG(EXTRACT(YEAR FROM CURRENT_DATE) - EXTRACT(YEAR FROM celebrities.birth)) AS avg_age
+       AVG(celebrities.age) AS avg_age
 FROM countries
 JOIN celebrities ON countries.code = celebrities.country_code
 GROUP BY countries.name
